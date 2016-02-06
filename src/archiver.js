@@ -1,49 +1,47 @@
-"use strict";
-
 console.log('hello world!');
-var fs = require('fs');
-var path = require('path');
-var spawn = require('child_process').spawn;
-var vidsdir = 'C:\\Users\\Brandon\\Dropbox\\projects\\vids\\test\\';
-var archiveDir = 'C:\\Users\\Brandon\\Dropbox\\projects\\vids\\archive\\';
-var errorDir = 'C:\\Users\\Brandon\\Dropbox\\projects\\vids\\error\\';
+const fs = require('fs');
+const path = require('path');
+const spawn = require('child_process').spawn;
+const vidsdir = 'C:\\Users\\Brandon\\Dropbox\\projects\\vids\\test\\';
+const archiveDir = 'C:\\Users\\Brandon\\Dropbox\\projects\\vids\\archive\\';
+const errorDir = 'C:\\Users\\Brandon\\Dropbox\\projects\\vids\\error\\';
 
-// var files = fs.readdirSync("C:\\Users\\Brandon\\Dropbox\\projects\\vids");
+// const files = fs.readdirSync("C:\\Users\\Brandon\\Dropbox\\projects\\vids");
 // files.foreach(function (file) {
 //   console.log(file);
 // })
-var downloadVid = function (url, filePath) {
-  var downloaddir = 'C:\\temp\\'
+const downloadVid = function(url, filePath) {
+  const downloaddir = 'C:\\temp\\';
   // url = 'https://www.youtube.com/watch?v=PEePaDqagpc';
-  var outputPath = downloaddir + "%(title)s-%(id)s.%(ext)s";
-  var yt = spawn('youtube-dl', ["-o", outputPath, url]);
-  yt.stdout.on('data', function (data) {
+  const outputPath = downloaddir + '%(title)s-%(id)s.%(ext)s';
+  const yt = spawn('youtube-dl', ['-o', outputPath, url]);
+  yt.stdout.on('data', function(data) {
     console.log('stdout: ' + data);
   });
-  yt.stderr.on('data', function (data) {
+  yt.stderr.on('data', function(data) {
     console.log('stderr: ' + data);
   });
-  yt.on('close', function (code) {
-    var filename = path.basename(filePath);
-    if (code == 0) { 
-      //success
+  yt.on('close', function(code) {
+    const filename = path.basename(filePath);
+    if (code === 0) {
+      // success
       fs.renameSync(filePath, archiveDir + filename);
-      console.log("success!");
-    } else{
+      console.log('success!');
+    } else {
       fs.renameSync(filePath, errorDir + filename);
-      console.log("failure");
-    };
+      console.log('failure');
+    }
   });
-}
+};
 // downloadVid();
-fs.readdir(vidsdir, function(err,files){
-  if(err) throw err;
-  if(files.length < 1) console.log('No files found.');
-  files.forEach(function(file){
-    var filePath = vidsdir + file;
-    var ext = path.extname(filePath);
-    if(ext === '.txt'){
-      fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
+fs.readdir(vidsdir, function(err, files) {
+  if (err) throw err;
+  if (files.length < 1) console.log('No files found.');
+  files.forEach(function(file) {
+    const filePath = vidsdir + file;
+    const ext = path.extname(filePath);
+    if (ext === '.txt') {
+      fs.readFile(filePath, {encoding: 'utf-8'}, function(err2, data) {
         console.log(file);
         console.log('data: ' + data);
         downloadVid(data, filePath);
@@ -52,7 +50,7 @@ fs.readdir(vidsdir, function(err,files){
   });
 });
 
-// var exec = require('child_process').exec,
+// const exec = require('child_process').exec,
 //     child;
 
 // child = exec('youtube-dl',

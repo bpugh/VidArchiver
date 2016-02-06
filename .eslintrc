@@ -1,0 +1,21 @@
+{
+  "parser"  : "babel-eslint",
+  "extends" : "airbnb",
+  "env"     : {
+    "browser" : true
+  },
+  "globals" : {
+    "$": false,
+  },
+  "rules": {
+    "comma-dangle" : [0, "always-multiline"],
+    "no-unused-expressions": [2, { "allowShortCircuit": true, "allowTernary": true }],
+    "eqeqeq": [2, "smart"],
+    "func-names"   : 0,
+    "no-else-return"   : 0,
+    "new-cap"   : 0,
+    "no-multi-spaces"  : 0,
+    "no-console"  : 0,
+    "quotes"           : [2, "single"],
+  }
+}

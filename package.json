@@ -1,0 +1,15 @@
+{
+  "name": "VidArchiver",
+  "version": "0.0.2",
+  "description": "Archive online videos",
+  "scripts": {
+    "lint": "eslint ./src/**/*.js* --fix"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "babel-eslint": "^4.1.8",
+    "eslint": "^1.0.0",
+    "eslint-config-airbnb": "^1.0.0",
+    "eslint-plugin-react": "^3.3.1"
+  }
+}
