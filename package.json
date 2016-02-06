@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "description": "Archive online videos",
   "scripts": {
+    "start": "node ./src/archiver.js",
     "lint": "eslint ./src/**/*.js* --fix"
   },
   "dependencies": {},
