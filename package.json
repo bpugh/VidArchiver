@@ -6,7 +6,9 @@
     "start": "node ./src/archiver.js",
     "lint": "eslint ./src/**/*.js* --fix"
   },
-  "dependencies": {},
+  "dependencies": {
+    "chokidar": "^1.4.2"
+  },
   "devDependencies": {
     "babel-eslint": "^4.1.8",
     "eslint": "^1.0.0",
