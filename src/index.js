@@ -2,11 +2,12 @@ const fs = require('fs');
 const chokidar = require('chokidar');
 const path = require('path');
 const spawn = require('child_process').spawn;
-const vidsdir = 'C:\\Users\\Brandon\\Dropbox\\projects\\vids\\test\\';
-const archiveDir = 'C:\\Users\\Brandon\\Dropbox\\projects\\vids\\archive\\';
-const errorDir = 'C:\\Users\\Brandon\\Dropbox\\projects\\vids\\error\\';
+const rc = require('rc');
+const appName = 'vidArchiver';
+const config = rc(appName, {});
+console.log(config);
 
-const watcher = chokidar.watch(vidsdir, {
+const watcher = chokidar.watch(config.vidsdir, {
   ignored: /[\/\\]\./,
   persistent: true,
 });
@@ -17,7 +18,7 @@ watcher
   });
 
 function readFile(file) {
-  const filePath = path.isAbsolute(file) ? file : vidsdir + file;
+  const filePath = path.isAbsolute(file) ? file : config.vidsdir + file;
   const ext = path.extname(filePath);
   if (ext === '.txt') {
     fs.readFile(filePath, {encoding: 'utf-8'}, function(err2, data) {
@@ -29,8 +30,7 @@ function readFile(file) {
 }
 
 function downloadVid(url, filePath) {
-  const downloaddir = 'C:\\temp\\';
-  const outputPath = downloaddir + '%(title)s.%(ext)s';
+  const outputPath = config.downloadDir + '%(title)s.%(ext)s';
   const yt = spawn('youtube-dl', ['-o', outputPath, url]);
   yt.stdout.on('data', function(data) {
     console.log('stdout: ' + data);
@@ -41,10 +41,10 @@ function downloadVid(url, filePath) {
   yt.on('close', function(code) {
     const filename = path.basename(filePath);
     if (code === 0) { // success
-      fs.renameSync(filePath, archiveDir + filename);
+      fs.renameSync(filePath, config.archiveDir + filename);
       console.log(`${filename} successfully archived`);
     } else { // error
-      fs.renameSync(filePath, errorDir + filename);
+      fs.renameSync(filePath, config.errorDir + filename);
       console.error(`Error archiving ${filename}`);
     }
   });
